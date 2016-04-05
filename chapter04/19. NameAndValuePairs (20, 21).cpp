@@ -49,7 +49,7 @@ int main()
 
 	// display the name and value seperated by a tab
 	for (int i = 0; i < names.size(); i++)
-		std::cout << names[i] << "\t" << values[i] << "\n\n";
+		std::cout << "\n" << names[i] << "\t" << values[i] << "\n";
 
 
 	// search through both vectors and display the results of the given query
@@ -61,13 +61,19 @@ void searchScores()
 	std::string userInput = "???";
 	int valueInput = 0;
 	std::string nameInput = "???";
-	bool isInt = false;
 
-	std::cout << "Enter a name or score. To QUIT, type \"NoName\" without the quotation marks followed by the ENTER key:\n\n";
+	std::cout << "\nEnter a name or score. To QUIT, type \"NoName\" without the quotation marks followed by the ENTER key.\n\n";
 
 	while (std::cin >> userInput && !(userInput == "NoName"))
 	{
-		std::cout << "Enter a name or score. To QUIT, type \"NoName\" without the quotation marks followed by the ENTER key:\n\n";
+		// this is used to determine if the value entered is a string or integer
+		bool isInt = false;
+
+		// this is used to count how many names match a given value
+		int valuesFound = 0;
+
+		// this is used to break the loop when a name is found in the vector
+		bool nameFound = false;
 
 		// check if the value entered by the user is a string or integer
 		for (int i = 0; i < userInput.length(); i++)
@@ -88,10 +94,13 @@ void searchScores()
 			for (int i = 0; i < values.size(); i++)
 			{
 				if (values[i] == valueInput)
-					std::cout << names[i] << "\t" << values[i] << std::endl;
-				else
-					std::cout << "Score not found.\n\n";
+				{
+					std::cout << "RESULT: " << names[i] << "\t" << values[i] << std::endl;
+					valuesFound++;
+				}
 			}
+			if (valuesFound < 1)
+				std::cout << "RESULT: Score not found.\n";
 		}
 		// searches through the names vector if the user query is a string
 		else
@@ -99,12 +108,15 @@ void searchScores()
 			for (int i = 0; i < names.size(); i++)
 			{
 				if (names[i] == nameInput)
-					std::cout << names[i] << "\t" << values[i] << std::endl;
-				else
-					std::cout << "Name not found.\n\n";
+				{
+					std::cout << "RESULT: " << names[i] << "\t" << values[i] << std::endl;
+					nameFound = true;
+					break;
+				}
 			}
+			if (!nameFound)
+				std::cout << "RESULT: Name not found.\n";
 		}
-
 	}
 }
 
